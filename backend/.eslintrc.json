@@ -1,0 +1,9 @@
+{
+  "extends": ["eslint-config-hapi", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 9
+  },
+  "rules": {
+    "hapi/hapi-scope-start": 0
+  }
+}
