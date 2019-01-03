@@ -3,7 +3,7 @@
 const Wreck = require('wreck');
 const Boom = require('boom');
 
-// Refresh token is stored in an ecrypted httpOnly cookie, could also store it in redis or some
+// Refresh token is stored in an encrypted httpOnly cookie, could also store it in redis or some
 // other external store.
 const getRefreshToken = request => {
   const auth = request.yar.get('auth');
