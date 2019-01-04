@@ -10,7 +10,7 @@ const register = async function(server) {
   // Register "hapi-auth-jwt2" here because this custom plugin depends on it.
   await server.register(require('hapi-auth-jwt2'), { once: true });
 
-  server.auth.strategy('jwt', 'jwt', {
+  const commonOptions = {
     complete: true,
     key: JwksRsa.hapiJwt2KeyAsync({
       cache: true,
@@ -23,7 +23,14 @@ const register = async function(server) {
       audience: 'test-api',
       issuer: `${process.env.AUTH0_DOMAIN}/`,
       algorithms: ['RS256']
-    },
+    }
+  };
+
+  /**
+   * Default authentication strategy. Throws 401 unauthorized if token is not valid or is expired.
+   */
+  server.auth.strategy('default', 'jwt', {
+    ...commonOptions,
     validate: (decoded, request, h) => {
       const exp = new Date(decoded.exp * 1000).getTime();
       const now = new Date().getTime();
@@ -40,7 +47,18 @@ const register = async function(server) {
     }
   });
 
-  server.auth.default('jwt');
+  /**
+   * Validate only strategy. This only validates, that the given token is valid, can be used to check
+   * old token's validity when calling refresh-token endpoint for example.
+   */
+  server.auth.strategy('validate-only', 'jwt', {
+    ...commonOptions,
+    validate: () => {
+      return { isValid: true };
+    }
+  });
+
+  server.auth.default('default');
 };
 
 module.exports = {

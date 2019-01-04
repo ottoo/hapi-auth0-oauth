@@ -16,11 +16,15 @@ const getRefreshToken = request => {
   return refresh_token;
 };
 
+/**
+ * Refreshes the access token for the user. Here you could also check, if the user is active or not
+ * and grant refreshing the token based on that.
+ */
 module.exports = {
   method: 'POST',
   path: '/refresh-token',
   options: {
-    auth: false,
+    auth: 'validate-only',
     handler: async request => {
       request.log('auth', 'Access token has expired, refreshing the token.');
 
