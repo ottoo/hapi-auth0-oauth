@@ -18,7 +18,7 @@ class Home extends Component {
     return (
       <div>
         <h1>HOME</h1>
-        <pre>{JSON.stringify(this.state.userinfo)}</pre>
+        <pre>{JSON.stringify(this.state.userinfo, null, 2)}</pre>
       </div>
     );
   }
