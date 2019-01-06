@@ -33,7 +33,7 @@ module.exports = {
       request.yar.set('auth', payload);
 
       return h.redirect(
-        `http://localhost:3000/post-login?${QueryString.stringify({
+        `${process.env.FRONTEND_URI}/post-login?${QueryString.stringify({
           access_token: payload.access_token,
           expires_in: payload.expires_in
         })}`

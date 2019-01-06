@@ -25,3 +25,7 @@ returned as a query param to the frontend from which it is taken and stored in t
 In real life, a better solution would probably be to store a session id in either local storage or
 in a cookie and hold the actual session in a database like Postgres or an in-memory database such as
 Redis. There are tradeoffs in using local storage (XSS) and cookies (CSRF) for storing these details.
+
+### Example
+
+An example is available at [https://ottokivikarki.co](https://ottokivikarki.co).
