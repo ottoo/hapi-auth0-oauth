@@ -28,4 +28,4 @@ Redis. There are tradeoffs in using local storage (XSS) and cookies (CSRF) for s
 
 ### Example
 
-An example is available at [https://ottokivikarki.co](https://ottokivikarki.co).
+An example is available at [https://ottokivikarki.co/auth-example](https://ottokivikarki.co/auth-example).
