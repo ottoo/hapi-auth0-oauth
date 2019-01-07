@@ -1,6 +1,7 @@
 'use strict';
 
 const JwksRsa = require('jwks-rsa');
+const { ACCESS_TOKEN_KEY } = require('../constants');
 
 /**
  * Handles checking access token validity and refreshes the
@@ -11,6 +12,7 @@ const register = async function(server) {
   await server.register(require('hapi-auth-jwt2'), { once: true });
 
   const commonOptions = {
+    cookieKey: ACCESS_TOKEN_KEY,
     complete: true,
     key: JwksRsa.hapiJwt2KeyAsync({
       cache: true,

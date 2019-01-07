@@ -10,6 +10,22 @@ exports.deployment = async start => {
     { relativeTo: __dirname }
   );
 
+  server.state('o_t', {
+    ttl: 24 * 60 * 60 * 1000, // One day
+    isSecure: process.env.NODE_ENV === 'production',
+    isHttpOnly: true,
+    path: '/',
+    encoding: 'none'
+  });
+
+  server.state('o_r', {
+    ttl: 24 * 60 * 60 * 1000, // One day
+    isSecure: process.env.NODE_ENV === 'production',
+    isHttpOnly: true,
+    path: '/',
+    encoding: 'none'
+  });
+
   await server.initialize();
 
   if (!start) {

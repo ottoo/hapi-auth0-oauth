@@ -1,6 +1,7 @@
 'use strict';
 
 const Wreck = require('wreck');
+const { ACCESS_TOKEN_KEY } = require('../constants');
 
 module.exports = {
   method: 'GET',
@@ -12,7 +13,7 @@ module.exports = {
         {
           json: true,
           headers: {
-            Authorization: `Bearer ${request.headers.authorization}`
+            Authorization: `Bearer ${request.state[ACCESS_TOKEN_KEY]}`
           }
         }
       );

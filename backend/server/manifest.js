@@ -18,7 +18,9 @@ module.exports = new Confidence.Store({
     },
     routes: {
       cors: {
-        credentials: true
+        origin: [process.env.FRONTEND_URI],
+        credentials: true,
+        additionalHeaders: ['x-xsrf-token']
       }
     }
   },
@@ -47,14 +49,14 @@ module.exports = new Confidence.Store({
         }
       },
       {
-        plugin: 'yar',
+        plugin: 'crumb',
         options: {
-          name: 'oauth_state',
+          key: 'XSRF-TOKEN',
+          headerName: 'X-XSRF-TOKEN',
+          restful: true,
           cookieOptions: {
-            password: 'test_passwordtest_passwordtest_password',
-            isHttpOnly: true,
-            isSecure: process.env.NODE_ENV === 'production',
-            isSameSite: false
+            isHttpOnly: false,
+            isSecure: process.env.NODE_ENV === 'production'
           }
         }
       },

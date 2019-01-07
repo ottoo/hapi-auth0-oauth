@@ -2,15 +2,15 @@
 
 const Wreck = require('wreck');
 const Boom = require('boom');
+const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } = require('../constants');
 
 // Refresh token is stored in an encrypted httpOnly cookie, could also store it in redis or some
 // other external store.
 const getRefreshToken = request => {
-  const auth = request.yar.get('auth');
-  const refresh_token = auth && auth.refresh_token;
+  const refresh_token = request.state[REFRESH_TOKEN_KEY];
 
   if (!refresh_token) {
-    throw Boom.unauthorized('Error. No refresh token found in session.');
+    throw Boom.unauthorized('Error. No refresh token found in a cookie.');
   }
 
   return refresh_token;
@@ -25,7 +25,7 @@ module.exports = {
   path: '/refresh-token',
   options: {
     auth: 'validate-only',
-    handler: async request => {
+    handler: async (request, h) => {
       request.log('auth', 'Access token has expired, refreshing the token.');
 
       const res = await Wreck.request(
@@ -45,6 +45,8 @@ module.exports = {
       );
 
       const response = await Wreck.read(res, { json: true });
+
+      h.state(ACCESS_TOKEN_KEY, response.access_token);
 
       request.log('auth', `Refreshed access token: ${response}`);
 

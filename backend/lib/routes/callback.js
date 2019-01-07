@@ -1,7 +1,7 @@
 'use strict';
 
 const Wreck = require('wreck');
-const QueryString = require('query-string');
+const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } = require('../constants');
 
 /**
  * auth0 calls this callback route after a successful authentication. Here, the authorization code
@@ -30,14 +30,10 @@ module.exports = {
         }
       );
 
-      request.yar.set('auth', payload);
+      h.state(ACCESS_TOKEN_KEY, payload.access_token);
+      h.state(REFRESH_TOKEN_KEY, payload.refresh_token);
 
-      return h.redirect(
-        `${process.env.FRONTEND_URI}/post-login?${QueryString.stringify({
-          access_token: payload.access_token,
-          expires_in: payload.expires_in
-        })}`
-      );
+      return h.redirect(`${process.env.FRONTEND_URI}/post-login`);
     }
   }
 };
